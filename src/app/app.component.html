@@ -1,0 +1,133 @@
+<app-navigation></app-navigation>
+<span>{{counter}}</span>
+<input type="button" value="increment" (click)="incrementCounter()">
+<br>
+<span [style.color]="color" [style.display]="textVisiblity">This is sample Showen text</span>
+<input type="button" [value]="buttonText" (click)="buttonClick()">
+<div [class]="className">This is counter based changing DIV</div>
+<div *ngIf="showDiv">This is a ng-if div</div>
+<br>
+<app-table [bookObjectArray]="bookObjectArray" [bookPricesObject]="bookPricesObject"></app-table>
+<span [ngSwitch]="showDiv">
+<p *ngSwitchCase="true">
+Hello this is true
+</p>
+<p *ngSwitchCase="false">
+Hello this is false
+</p>
+<p *ngSwitchDefault>
+Hello this is default
+</p>
+</span>
+
+<div class="cls1" [ngClass]="{'cls1': counter%2==1,'cls2':counter%2==0}" [ngStyle]="{'color': counter%2==0?'pink':'red'}">
+    This is ng-class and ng-style div
+    <br> a style object can be created in ts file and added to the ng-style tag
+</div>
+<div>
+    <input type="radio" ng-model="colorHighlight" value="red" name="highlightColor" (click)="highlightColor='red'">RED
+    <input type="radio" ng-model="colorHighlight" value="green" name="highlightColor" (click)="highlightColor='green'">GREEN
+    <input type="radio" ng-model="colorHighlight" value="pink" name="highlightColor" (click)="highlightColor='pink'">PINK
+    <input type="radio" ng-model="colorHighlight" value="yellow" name="highlightColor" (click)="highlightColor='yellow'">YELLOW
+</div>
+
+<div appHighlight [defaultColor]="highlightColor">
+    <br>
+    <br>
+    <br> custom Directive div which highlights when hoverd over defaultColor is given as an input tothe directive
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+
+<div>
+    Getting input without twoway binding <input type="text" [value]="textInputValue" (input)="setValue($event)"> The given input is {{textInputValue}}
+</div>
+
+<div>
+    Getting input with twoway binding <input type="text" [(ngModel)]="textInputValue"> The given input is {{textInputValue}}
+</div>
+
+<div>
+    Password validation:
+    <br>
+    <input type="password" [(ngModel)]="password" (ngModelChange)="validatePassword()">
+    <br>
+    <div *ngIf="password.length">Conditions stisfied in password :</div>
+    <ul>
+        <li *ngFor="let item of passwordObject | keyvalue">
+            {{item.key}}
+        </li>
+    </ul>
+</div>
+<div>
+    <app-inbuilt-pipes [sampleDataPipes]="sampleDataPipes" [counter]="counter" (informParent)="printInParent($event)"></app-inbuilt-pipes>
+    <app-inbuilt-pipes sampleDataPipes="hi world" (informParent)="printInParent($event)"></app-inbuilt-pipes>
+    <app-inbuilt-pipes (informParent)="printInParent($event)"></app-inbuilt-pipes>
+
+</div>
+<div>
+    <h2>
+        Custome pipe for exponent
+    </h2>
+    <div>
+        2 power 10 = {{2 | exponentialpipe:10}}
+    </div>
+</div>
+<div>
+    <h2>
+        Custome pipe for array filter
+    </h2>
+    <div>
+        Book name to search : <input type="text" [(ngModel)]="searchItem">
+    </div>
+    <div>
+        <table *ngIf="bookObjectArray.length">
+            <thead>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Ouantity</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let book of bookObjectArray | filter:searchItem;let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{book.bookName}}</td>
+                    <td>{{book.quantity}}</td>
+                    <td>{{bookPricesObject[book.bookName]}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div>
+    <h2>
+        Custome pipe for array sort
+    </h2>
+    <div>
+        Select field to sort by : <select [(ngModel)]="sortField">
+          <option value="bookName">Book Name</option>
+          <option value="quantity">Quantity</option>
+        </select>
+    </div>
+    <div>
+        <table *ngIf="bookObjectArray.length">
+            <thead>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Ouantity</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let book of bookObjectArray | sort:sortField;let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{book.bookName}}</td>
+                    <td>{{book.quantity}}</td>
+                    <td>{{bookPricesObject[book.bookName]}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
